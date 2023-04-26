@@ -11,14 +11,24 @@ import (
 	"github.com/lanpaiva/movies-graphql/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateCategory is the resolver for the createCategory field.
+func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCategory) (*model.Category, error) {
+	panic(fmt.Errorf("not implemented: CreateCategory - createCategory"))
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// CreateMovie is the resolver for the createMovie field.
+func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
+	panic(fmt.Errorf("not implemented: CreateMovie - createMovie"))
+}
+
+// Categories is the resolver for the categories field.
+func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
+	panic(fmt.Errorf("not implemented: Categories - categories"))
+}
+
+// Movies is the resolver for the movies field.
+func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
+	panic(fmt.Errorf("not implemented: Movies - movies"))
 }
 
 // Mutation returns MutationResolver implementation.

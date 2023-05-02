@@ -3,27 +3,26 @@
 package model
 
 type Category struct {
-	ID          *string  `json:"id,omitempty"`
+	ID          string   `json:"id"`
 	Name        string   `json:"name"`
-	Description string   `json:"description"`
+	Description *string  `json:"description,omitempty"`
 	Movies      []*Movie `json:"movies"`
 }
 
 type Movie struct {
-	ID       *string   `json:"id,omitempty"`
-	Name     string    `json:"name"`
-	Year     int       `json:"year"`
-	Category *Category `json:"category"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Description *string   `json:"description,omitempty"`
+	Category    *Category `json:"category"`
 }
 
 type NewCategory struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
 }
 
 type NewMovie struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Year        int    `json:"year"`
-	CategoryID  string `json:"categoryId"`
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+	CategoryID  string  `json:"categoryId"`
 }

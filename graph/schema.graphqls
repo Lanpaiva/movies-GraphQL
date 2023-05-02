@@ -1,26 +1,25 @@
 type Category {
-  id: ID
+  id: ID!
   name: String!
-  description: String!
+  description: String
   movies: [Movie!]!
 }
 
 type Movie {
-id: ID
-name: String!
-year: Int!
-category: Category!
+  id: ID!
+  name: String!
+  description: String
+  category: Category!
 }
 
 input NewCategory {
   name: String!
-  description: String!
+  description: String
 }
 
 input NewMovie {
   name: String!
-  description: String!
-  year: Int!
+  description: String
   categoryId: ID!
 }
 

@@ -53,10 +53,10 @@ type ComplexityRoot struct {
 	}
 
 	Movie struct {
-		Category func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Name     func(childComplexity int) int
-		Year     func(childComplexity int) int
+		Category    func(childComplexity int) int
+		Description func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Name        func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -129,6 +129,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Movie.Category(childComplexity), true
 
+	case "Movie.description":
+		if e.complexity.Movie.Description == nil {
+			break
+		}
+
+		return e.complexity.Movie.Description(childComplexity), true
+
 	case "Movie.id":
 		if e.complexity.Movie.ID == nil {
 			break
@@ -142,13 +149,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Movie.Name(childComplexity), true
-
-	case "Movie.year":
-		if e.complexity.Movie.Year == nil {
-			break
-		}
-
-		return e.complexity.Movie.Year(childComplexity), true
 
 	case "Mutation.createCategory":
 		if e.complexity.Mutation.CreateCategory == nil {
@@ -381,11 +381,14 @@ func (ec *executionContext) _Category_id(ctx context.Context, field graphql.Coll
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Category_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -466,14 +469,11 @@ func (ec *executionContext) _Category_description(ctx context.Context, field gra
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Category_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -532,8 +532,8 @@ func (ec *executionContext) fieldContext_Category_movies(ctx context.Context, fi
 				return ec.fieldContext_Movie_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
-			case "year":
-				return ec.fieldContext_Movie_year(ctx, field)
+			case "description":
+				return ec.fieldContext_Movie_description(ctx, field)
 			case "category":
 				return ec.fieldContext_Movie_category(ctx, field)
 			}
@@ -564,11 +564,14 @@ func (ec *executionContext) _Movie_id(ctx context.Context, field graphql.Collect
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Movie_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -628,8 +631,8 @@ func (ec *executionContext) fieldContext_Movie_name(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Movie_year(ctx context.Context, field graphql.CollectedField, obj *model.Movie) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Movie_year(ctx, field)
+func (ec *executionContext) _Movie_description(ctx context.Context, field graphql.CollectedField, obj *model.Movie) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Movie_description(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -642,31 +645,28 @@ func (ec *executionContext) _Movie_year(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Year, nil
+		return obj.Description, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Movie_year(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Movie_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Movie",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -834,8 +834,8 @@ func (ec *executionContext) fieldContext_Mutation_createMovie(ctx context.Contex
 				return ec.fieldContext_Movie_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
-			case "year":
-				return ec.fieldContext_Movie_year(ctx, field)
+			case "description":
+				return ec.fieldContext_Movie_description(ctx, field)
 			case "category":
 				return ec.fieldContext_Movie_category(ctx, field)
 			}
@@ -953,8 +953,8 @@ func (ec *executionContext) fieldContext_Query_movies(ctx context.Context, field
 				return ec.fieldContext_Movie_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Movie_name(ctx, field)
-			case "year":
-				return ec.fieldContext_Movie_year(ctx, field)
+			case "description":
+				return ec.fieldContext_Movie_description(ctx, field)
 			case "category":
 				return ec.fieldContext_Movie_category(ctx, field)
 			}
@@ -2892,7 +2892,7 @@ func (ec *executionContext) unmarshalInputNewCategory(ctx context.Context, obj i
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalNString2string(ctx, v)
+			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2909,7 +2909,7 @@ func (ec *executionContext) unmarshalInputNewMovie(ctx context.Context, obj inte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "year", "categoryId"}
+	fieldsInOrder := [...]string{"name", "description", "categoryId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -2928,15 +2928,7 @@ func (ec *executionContext) unmarshalInputNewMovie(ctx context.Context, obj inte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "year":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("year"))
-			it.Year, err = ec.unmarshalNInt2int(ctx, v)
+			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2976,6 +2968,9 @@ func (ec *executionContext) _Category(ctx context.Context, sel ast.SelectionSet,
 
 			out.Values[i] = ec._Category_id(ctx, field, obj)
 
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "name":
 
 			out.Values[i] = ec._Category_name(ctx, field, obj)
@@ -2987,9 +2982,6 @@ func (ec *executionContext) _Category(ctx context.Context, sel ast.SelectionSet,
 
 			out.Values[i] = ec._Category_description(ctx, field, obj)
 
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "movies":
 
 			out.Values[i] = ec._Category_movies(ctx, field, obj)
@@ -3022,6 +3014,9 @@ func (ec *executionContext) _Movie(ctx context.Context, sel ast.SelectionSet, ob
 
 			out.Values[i] = ec._Movie_id(ctx, field, obj)
 
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "name":
 
 			out.Values[i] = ec._Movie_name(ctx, field, obj)
@@ -3029,13 +3024,10 @@ func (ec *executionContext) _Movie(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "year":
+		case "description":
 
-			out.Values[i] = ec._Movie_year(ctx, field, obj)
+			out.Values[i] = ec._Movie_description(ctx, field, obj)
 
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "category":
 
 			out.Values[i] = ec._Movie_category(ctx, field, obj)
@@ -3596,21 +3588,6 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	res, err := graphql.UnmarshalInt(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	res := graphql.MarshalInt(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-	}
-	return res
-}
-
 func (ec *executionContext) marshalNMovie2githubᚗcomᚋlanpaivaᚋmoviesᚑgraphqlᚋgraphᚋmodelᚐMovie(ctx context.Context, sel ast.SelectionSet, v model.Movie) graphql.Marshaler {
 	return ec._Movie(ctx, sel, &v)
 }
@@ -3970,22 +3947,6 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	res := graphql.MarshalBoolean(*v)
-	return res
-}
-
-func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalID(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	res := graphql.MarshalID(*v)
 	return res
 }
 

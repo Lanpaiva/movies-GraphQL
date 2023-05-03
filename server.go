@@ -23,6 +23,7 @@ func main() {
 	defer db.Close()
 
 	categoryDb := private.NewCategory(db)
+	movieDb := private.NewMovie(db)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -31,6 +32,7 @@ func main() {
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		CategoryDB: categoryDb,
+		MovieDB:    movieDb,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

@@ -26,7 +26,16 @@ func (r *mutationResolver) CreateCategory(ctx context.Context, input model.NewCa
 
 // CreateMovie is the resolver for the createMovie field.
 func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: CreateMovie - createMovie"))
+	movie, err := r.MovieDB.Create(input.Name, *input.Description, *input.Year, input.CategoryID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Movie{
+		ID:          movie.ID,
+		Name:        movie.Name,
+		Description: &movie.Description,
+		Year:        &movie.Year,
+	}, nil
 }
 
 // Categories is the resolver for the categories field.

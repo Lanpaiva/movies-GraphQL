@@ -8,4 +8,5 @@ import "github.com/lanpaiva/movies-graphql/internal/private"
 
 type Resolver struct {
 	CategoryDB *private.Category
+	MovieDB    *private.Movie
 }

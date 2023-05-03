@@ -13,6 +13,7 @@ type Movie struct {
 	ID          string    `json:"id"`
 	Name        string    `json:"name"`
 	Description *string   `json:"description,omitempty"`
+	Year        *int      `json:"year,omitempty"`
 	Category    *Category `json:"category"`
 }
 
@@ -24,5 +25,6 @@ type NewCategory struct {
 type NewMovie struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description,omitempty"`
+	Year        *int    `json:"year,omitempty"`
 	CategoryID  string  `json:"categoryId"`
 }

@@ -9,6 +9,7 @@ type Movie {
   id: ID!
   name: String!
   description: String
+  year: Int
   category: Category!
 }
 
@@ -20,6 +21,7 @@ input NewCategory {
 input NewMovie {
   name: String!
   description: String
+  year: Int
   categoryId: ID!
 }
 

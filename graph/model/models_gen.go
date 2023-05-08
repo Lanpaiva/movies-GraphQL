@@ -2,21 +2,6 @@
 
 package model
 
-type Category struct {
-	ID          string   `json:"id"`
-	Name        string   `json:"name"`
-	Description *string  `json:"description,omitempty"`
-	Movies      []*Movie `json:"movies"`
-}
-
-type Movie struct {
-	ID          string    `json:"id"`
-	Name        string    `json:"name"`
-	Description *string   `json:"description,omitempty"`
-	Year        *int      `json:"year,omitempty"`
-	Category    *Category `json:"category"`
-}
-
 type NewCategory struct {
 	Name        string  `json:"name"`
 	Description *string `json:"description,omitempty"`

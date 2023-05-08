@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/lanpaiva/movies-graphql/graph/model"
 )
@@ -40,12 +39,37 @@ func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie
 
 // Categories is the resolver for the categories field.
 func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
-	panic(fmt.Errorf("not implemented: Categories - categories"))
+	categories, err := r.CategoryDB.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	var categoriesModel []*model.Category
+	for _, category := range categories {
+		categoriesModel = append(categoriesModel, &model.Category{
+			ID:          category.ID,
+			Name:        category.Name,
+			Description: &category.Description,
+		})
+	}
+	return categoriesModel, nil
 }
 
 // Movies is the resolver for the movies field.
 func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
-	panic(fmt.Errorf("not implemented: Movies - movies"))
+	movies, err := r.MovieDB.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	var movieModel []*model.Movie
+	for _, movie := range movies {
+		movieModel = append(movieModel, &model.Movie{
+			ID:          movie.ID,
+			Name:        movie.Name,
+			Description: &movie.Description,
+			Year:        &movie.Year,
+		})
+	}
+	return movieModel, nil
 }
 
 // Mutation returns MutationResolver implementation.

@@ -34,3 +34,25 @@ func (m *Movie) Create(name string, description string, year int, categoryID str
 		CategoryID:  categoryID,
 	}, nil
 }
+
+func (m *Movie) FindAll() ([]Movie, error) {
+	rows, err := m.db.Query("SELECT id, name, description, year, category_id FROM movies")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	movies := []Movie{}
+	for rows.Next() {
+		var id string
+		var name string
+		var description string
+		var year int
+		var categoryID string
+
+		if err := rows.Scan(&id, &name, &description, &year, &categoryID); err != nil {
+			return nil, err
+		}
+		movies = append(movies, Movie{ID: id, Name: name, Description: description, Year: year, CategoryID: categoryID})
+	}
+	return movies, nil
+}

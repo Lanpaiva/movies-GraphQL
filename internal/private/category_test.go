@@ -35,7 +35,7 @@ func TestCreateCategory(t *testing.T) {
 	}
 }
 
-func TestFindAll(t *testing.T) {
+func TestFindAllCategories(t *testing.T) {
 	os.Remove("./data.db")
 	db, err := sql.Open("sqlite3", "./data.db")
 	if err != nil {

@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/99designs/gqlgen v0.17.30
+	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/google/uuid v1.3.0
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/vektah/gqlparser/v2 v2.5.1

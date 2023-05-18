@@ -72,10 +72,11 @@ func TestFindAllCategories(t *testing.T) {
 	if categories[1].Name != "category2" || categories[1].Description != "description2" {
 		t.Errorf("category 2 is incorrect; got %v, expected {Name: 'category2', Description: 'description2'}", categories[1])
 	}
+
 }
 
 func TestFindByMovieID(t *testing.T) {
-	// Abrir conexão com o banco de dados
+
 	db, err := sql.Open("sqlite3", "./data.db")
 	if err != nil {
 		t.Fatalf("failed to open database: %v", err)
@@ -84,27 +85,21 @@ func TestFindByMovieID(t *testing.T) {
 
 	c := &Category{db: db}
 
-	// Inserir dados de teste na tabela categories
 	_, err = db.Exec(`INSERT INTO categories (id, name, description) VALUES (?, ?, ?)`, "1", "Test category", "Test category description")
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
 	}
 
-	// Inserir dados de teste na tabela movies
 	_, err = db.Exec(`INSERT INTO movies (id, name, description, category_id) VALUES (?, ?, ?, ?)`, "1", "Test movie", "Test movie description", "1")
 	if err != nil {
 		t.Fatalf("failed to insert test data: %v", err)
 	}
 
-	// Criar uma nova instância da struct Category
-
-	// Chamar a função FindByMovieID com o movieID inserido acima
 	category, err := c.FindByMovieID("1")
 	if err != nil {
 		t.Fatalf("failed to find category: %v", err)
 	}
 
-	// Verificar se os dados retornados estão corretos
 	expectedCategory := Category{ID: "1", Name: "Test category", Description: "Test category description"}
 	if category != expectedCategory {
 		t.Errorf("category is %v; expected %v", category, expectedCategory)

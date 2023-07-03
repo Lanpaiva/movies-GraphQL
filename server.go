@@ -11,6 +11,7 @@ import (
 	"github.com/lanpaiva/movies-graphql/graph"
 	"github.com/lanpaiva/movies-graphql/internal/private"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/cors" // Importe o pacote de middleware de CORS
 )
 
 const defaultPort = "8080"
@@ -35,8 +36,12 @@ func main() {
 		MovieDB:    movieDb,
 	}}))
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	// Configure o middleware de CORS usando o pacote "cors.Default()"
+	c := cors.Default()
+
+	// Adicione o cabeçalho "Access-Control-Allow-Origin" e use o middleware de CORS nas rotas
+	http.Handle("/", c.Handler(playground.Handler("GraphQL playground", "/query")))
+	http.Handle("/query", c.Handler(srv))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

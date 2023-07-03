@@ -13,7 +13,7 @@ Este é o backend da aplicação, onde foi desenvolvida toda a lógica do negóc
 - Clone este repositório.
 - Execute o comando `go mod tidy` para baixar as dependências.
 - Execute o comando `go run server.go` para iniciar o servidor.
-- Certifique-se de ter o banco de dados SQLite intalado e configurado corretamente.
+- Certifique-se de ter o banco de dados SQLite instalado e configurado corretamente.
 
 ## Uso
 
